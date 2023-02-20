@@ -4,13 +4,26 @@ export class App extends Component {
   state = {
     good: 0,
     neutral: 0,
-    bad: 0,
+    bad: 15,
   };
 
-  addVote = evt => {
+  addVote = ({ good, neutral, bad }) => {
     this.setState(prevState => {
-      return { good: prevState.good + 1 };
+      return {
+        good: prevState.good + 1,
+        neutral: prevState.neutral + 1,
+        bad: prevState.bad + 1,
+      };
     });
+  };
+
+  getTotalVotesCount = () => {
+    const values = Object.values(this.state);
+    let total = 0;
+    for (const value of values) {
+      total += value;
+    }
+    return total;
   };
 
   render() {
@@ -38,7 +51,7 @@ export class App extends Component {
           <li>Good: {good}</li>
           <li>Neutral: {neutral}</li>
           <li>Bad: {bad}</li>
-          <li>Total: {good + neutral + bad}</li>
+          <li>Total: {this.getTotalVotesCount()}</li>
           <li>Positive feedback:</li>
         </ul>
       </div>
