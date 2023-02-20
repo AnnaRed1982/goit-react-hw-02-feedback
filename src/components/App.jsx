@@ -7,6 +7,12 @@ export class App extends Component {
     bad: 0,
   };
 
+  addVote = evt => {
+    this.setState(prevState => {
+      return { good: prevState.good + 1 };
+    });
+  };
+
   render() {
     const { good, neutral, bad } = this.state;
 
@@ -15,9 +21,15 @@ export class App extends Component {
         <h1>Please leave feedback</h1>
 
         <div>
-          <button>Good</button>
-          <button>Neutral</button>
-          <button>Bad</button>
+          <button type="button" onClick={this.addVote}>
+            Good
+          </button>
+          <button type="button" onClick={this.addVote}>
+            Neutral
+          </button>
+          <button type="button" onClick={this.addVote}>
+            Bad
+          </button>
         </div>
 
         <h2>Statistics</h2>
@@ -26,10 +38,9 @@ export class App extends Component {
           <li>Good: {good}</li>
           <li>Neutral: {neutral}</li>
           <li>Bad: {bad}</li>
+          <li>Total: {good + neutral + bad}</li>
+          <li>Positive feedback:</li>
         </ul>
-
-        <p>Total:</p>
-        <p>Posistive feedback:</p>
       </div>
     );
   }
