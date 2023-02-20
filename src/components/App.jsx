@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 export class App extends Component {
   state = {
-    good: 0,
-    neutral: 0,
+    good: 9,
+    neutral: 10,
     bad: 15,
   };
 
@@ -26,9 +26,17 @@ export class App extends Component {
     return total;
   };
 
+  getPositiveFeedback = (good, neutral, getTotalVotesCount) => {
+    let total = getTotalVotesCount();
+    let positiveFeedback = (good + neutral) / total;
+    return positiveFeedback;
+  };
+
   render() {
     const { good, neutral, bad } = this.state;
-
+    let positiveFeedback = Math.round(
+      this.getPositiveFeedback(good, neutral, this.getTotalVotesCount) * 100
+    );
     return (
       <div>
         <h1>Please leave feedback</h1>
@@ -52,7 +60,7 @@ export class App extends Component {
           <li>Neutral: {neutral}</li>
           <li>Bad: {bad}</li>
           <li>Total: {this.getTotalVotesCount()}</li>
-          <li>Positive feedback:</li>
+          <li>Positive feedback: {positiveFeedback}%</li>
         </ul>
       </div>
     );
