@@ -2,18 +2,22 @@ import React, { Component } from 'react';
 
 export class App extends Component {
   state = {
-    good: 9,
-    neutral: 10,
-    bad: 15,
+    good: 0,
+    neutral: 0,
+    bad: 0,
   };
 
-  addVote = ({ good, neutral, bad }) => {
+  addVote = vote => {
     this.setState(prevState => {
-      return {
-        good: prevState.good + 1,
-        neutral: prevState.neutral + 1,
-        bad: prevState.bad + 1,
-      };
+      if (vote === 'good') {
+        return { good: prevState.good + 1 };
+      }
+      if (vote === 'neutral') {
+        return { neutral: prevState.neutral + 1 };
+      }
+      if (vote === 'bad') {
+        return { bad: prevState.bad + 1 };
+      }
     });
   };
 
@@ -28,27 +32,38 @@ export class App extends Component {
 
   getPositiveFeedback = (good, neutral, getTotalVotesCount) => {
     let total = getTotalVotesCount();
-    let positiveFeedback = (good + neutral) / total;
+    let positiveFeedback;
+
+    total === 0
+      ? (positiveFeedback = 0)
+      : (positiveFeedback = (good + neutral) / total);
+
     return positiveFeedback;
   };
 
   render() {
     const { good, neutral, bad } = this.state;
+
     let positiveFeedback = Math.round(
       this.getPositiveFeedback(good, neutral, this.getTotalVotesCount) * 100
     );
+
     return (
       <div>
         <h1>Please leave feedback</h1>
 
         <div>
-          <button type="button" onClick={this.addVote}>
+          <button type="button" id="good" onClick={() => this.addVote('good')}>
             Good
           </button>
-          <button type="button" onClick={this.addVote}>
+          <button
+            type="button"
+            id="neutral"
+            onClick={() => this.addVote('neutral')}
+          >
             Neutral
           </button>
-          <button type="button" onClick={this.addVote}>
+          <button type="button" id="bad" onClick={() => this.addVote('bad')}>
             Bad
           </button>
         </div>
