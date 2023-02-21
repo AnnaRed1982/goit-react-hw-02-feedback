@@ -66,9 +66,7 @@ export class App extends Component {
             onLeaveFeedback={this.addVote}
           ></FeedbackOptions>
 
-          <Notification message="There is no feedback"></Notification>
-
-          {total>0 && (
+          {total > 0 ? (
             <Statistics
               good={good}
               neutral={neutral}
@@ -76,6 +74,8 @@ export class App extends Component {
               total={total}
               positivePercentage={positivePercentage}
             ></Statistics>
+          ) : (
+            <Notification message="There is no feedback yet"></Notification>
           )}
         </Section>
       </div>
