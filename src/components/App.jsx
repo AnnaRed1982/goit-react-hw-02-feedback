@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Notification } from 'components/Notification/Notification';
 import { Section } from 'components/Section/Section';
 import { Statistics } from 'components/Statistics/Statistics';
 import { FeedbackOptions } from 'components/FeedbackOptions/FeedbackOptions';
@@ -60,19 +61,22 @@ export class App extends Component {
     return (
       <div>
         <Section title="Please leave feedback">
-          
           <FeedbackOptions
             options={this.state}
             onLeaveFeedback={this.addVote}
           ></FeedbackOptions>
 
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={total}
-            positivePercentage={positivePercentage}
-          ></Statistics>
+          <Notification message="There is no feedback"></Notification>
+
+          {total>0 && (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={total}
+              positivePercentage={positivePercentage}
+            ></Statistics>
+          )}
         </Section>
       </div>
     );
