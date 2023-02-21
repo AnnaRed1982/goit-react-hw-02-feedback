@@ -21,7 +21,7 @@ export class App extends Component {
     });
   };
 
-  getTotalVotesCount = () => {
+  countTotalFeedback = () => {
     const values = Object.values(this.state);
     let total = 0;
     for (const value of values) {
@@ -30,8 +30,8 @@ export class App extends Component {
     return total;
   };
 
-  getPositiveFeedback = (good, neutral, getTotalVotesCount) => {
-    let total = getTotalVotesCount();
+  countPositiveFeedbackPercentage = (good, neutral, countTotalFeedback) => {
+    let total = countTotalFeedback();
     let positiveFeedback;
 
     total === 0
@@ -45,7 +45,7 @@ export class App extends Component {
     const { good, neutral, bad } = this.state;
 
     let positiveFeedback = Math.round(
-      this.getPositiveFeedback(good, neutral, this.getTotalVotesCount) * 100
+      this.countPositiveFeedbackPercentage(good, neutral, this.countTotalFeedback) * 100
     );
 
     return (
@@ -74,7 +74,7 @@ export class App extends Component {
           <li>Good: {good}</li>
           <li>Neutral: {neutral}</li>
           <li>Bad: {bad}</li>
-          <li>Total: {this.getTotalVotesCount()}</li>
+          <li>Total: {this.countTotalFeedback()}</li>
           <li>Positive feedback: {positiveFeedback}%</li>
         </ul>
       </div>
