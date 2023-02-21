@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { Statistics } from 'components/Statistics/Statistics';
+import { FeedbackOptions } from 'components/FeedbackOptions/FeedbackOptions';
 
 export class App extends Component {
   state = {
@@ -32,58 +34,77 @@ export class App extends Component {
 
   countPositiveFeedbackPercentage = (good, neutral, countTotalFeedback) => {
     let total = countTotalFeedback();
-    let positiveFeedback;
+    let positivePercentage;
 
     total === 0
-      ? (positiveFeedback = 0)
-      : (positiveFeedback = (good + neutral) / total);
+      ? (positivePercentage = 0)
+      : (positivePercentage = (good + neutral) / total);
 
-    return positiveFeedback;
+    return positivePercentage;
   };
 
   render() {
     const { good, neutral, bad } = this.state;
 
-    let positiveFeedback = Math.round(
-      this.countPositiveFeedbackPercentage(good, neutral, this.countTotalFeedback) * 100
+    let total = this.countTotalFeedback();
+
+    let positivePercentage = Math.round(
+      this.countPositiveFeedbackPercentage(
+        good,
+        neutral,
+        this.countTotalFeedback
+      ) * 100
     );
 
     return (
       <div>
         <h1>Please leave feedback</h1>
 
-        <div>
-          <button type="button" id="good" onClick={() => this.addVote('good')}>
-            Good
-          </button>
-          <button
-            type="button"
-            id="neutral"
-            onClick={() => this.addVote('neutral')}
-          >
-            Neutral
-          </button>
-          <button type="button" id="bad" onClick={() => this.addVote('bad')}>
-            Bad
-          </button>
-        </div>
+        <FeedbackOptions
+          options={this.state}
+          onLeaveFeedback={this.addVote}
+        ></FeedbackOptions>
 
-        <h2>Statistics</h2>
-
-        <ul>
-          <li>Good: {good}</li>
-          <li>Neutral: {neutral}</li>
-          <li>Bad: {bad}</li>
-          <li>Total: {this.countTotalFeedback()}</li>
-          <li>Positive feedback: {positiveFeedback}%</li>
-        </ul>
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={total}
+          positivePercentage={positivePercentage}
+        ></Statistics>
       </div>
     );
   }
 }
 
-// export const App = () => {
-//   return (
-//
-//   );
-// };
+
+
+//  <div>
+//   <h1>Please leave feedback</h1>
+
+//   <div>
+//     <button type="button" id="good" onClick={() => this.addVote('good')}>
+//       Good
+//     </button>
+//     <button
+//       type="button"
+//       id="neutral"
+//       onClick={() => this.addVote('neutral')}
+//     >
+//       Neutral
+//     </button>
+//     <button type="button" id="bad" onClick={() => this.addVote('bad')}>
+//       Bad
+//     </button>
+//   </div>
+
+//   <h2>Statistics</h2>
+
+//   <ul>
+//     <li>Good: {good}</li>
+//     <li>Neutral: {neutral}</li>
+//     <li>Bad: {bad}</li>
+//     <li>Total: {total}</li>
+//     <li>Positive feedback: {positivePercentage}%</li>
+//   </ul>
+// </div>
