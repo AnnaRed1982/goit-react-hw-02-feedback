@@ -11,18 +11,8 @@ export class App extends Component {
     bad: 0,
   };
 
-  addVote = vote => {
-    this.setState(prevState => {
-      if (vote === 'good') {
-        return { good: prevState.good + 1 };
-      }
-      if (vote === 'neutral') {
-        return { neutral: prevState.neutral + 1 };
-      }
-      if (vote === 'bad') {
-        return { bad: prevState.bad + 1 };
-      }
-    });
+  addVote = option => {
+    this.setState({ [option]: this.state[option] + 1 });
   };
 
   countTotalFeedback = () => {
@@ -34,13 +24,12 @@ export class App extends Component {
     return total;
   };
 
-  countPositiveFeedbackPercentage = (good, neutral, countTotalFeedback) => {
-    let total = countTotalFeedback();
+  countPositiveFeedbackPercentage = (good, neutral, total) => {
     let positivePercentage;
 
     total === 0
       ? (positivePercentage = 0)
-      : (positivePercentage = (good + neutral) / total);
+      : (positivePercentage = Math.round(((good + neutral) / total) * 100));
 
     return positivePercentage;
   };
@@ -50,12 +39,10 @@ export class App extends Component {
 
     let total = this.countTotalFeedback();
 
-    let positivePercentage = Math.round(
-      this.countPositiveFeedbackPercentage(
-        good,
-        neutral,
-        this.countTotalFeedback
-      ) * 100
+    let positivePercentage = this.countPositiveFeedbackPercentage(
+      good,
+      neutral,
+      total
     );
 
     return (
